@@ -82,7 +82,7 @@ label {
   font-weight: 500;
   margin-bottom: 0.1rem;
 }
-input[type="number"] {
+input {
   padding: 0.5rem 0.7rem;
   border: 1px solid var(--input-border);
   border-radius: var(--border-radius);
@@ -91,7 +91,7 @@ input[type="number"] {
   font-size: 1rem;
   transition: border 0.15s;
 }
-input[type="number"]:focus {
+input:focus {
   outline: var(--focus-outline);
   border-color: var(--accent);
 }
@@ -255,4 +255,63 @@ footer a.github-link:focus {
     border-radius: 0;
     box-shadow: none;
   }
+}
+
+#comptes-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem;
+  margin-bottom: 1.2rem;
+}
+.compte-form-bloc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem 1.2rem;
+  border-bottom: 1px solid #ececec;
+  padding-bottom: 1.2rem;
+  position: relative;
+}
+.compte-form-bloc .form-group {
+  width: 100%;
+  max-width: 340px; /* Pour que ça reste compact même sur grand écran */
+}
+.supprimer-compte {
+  position: absolute;
+  right: 0.3rem;
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 1.7rem;
+  cursor: pointer;
+  padding: 0 0.7rem 0 0.5rem;
+  transition: color 0.15s, background 0.15s;
+  border-radius: 50%;
+  line-height: 1;
+}
+
+.supprimer-compte:hover,
+.supprimer-compte:focus {
+  color: #e55;
+}
+#ajouter-compte {
+  background: var(--button-bg);
+  color: var(--button-fg);
+  border: 1px solid var(--input-border);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.5rem 1.1rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  font-family: inherit;
+  margin-top: 0.3rem;
+}
+#ajouter-compte:focus,
+#ajouter-compte:hover {
+  background: #0198a5;
+  color: #fff;
+  outline: var(--focus-outline);
+  border-color: var(--accent);
 }

@@ -27,7 +27,7 @@ Voici les prochaines évolutions envisagées, par ordre de priorité et de faisa
 
 - [x] 🌍 Ajout du multilingue (fr/en)
 - [x] 🌗 Switch manuel Light/Dark mode
-- [ ] 🤹 Multi-comptes (plusieurs épargnes)
+- [x] 🤹 Multi-comptes (plusieurs épargnes)
 - [ ] 🏦 Gestion des prêts
 - [ ] 💸 Gestion des piochages ponctuels
 - [ ] 📈 Gestion des augmentations de versements
