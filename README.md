@@ -21,6 +21,17 @@
 - JavaScript vanilla (pas de dépendance externe)
 - Déploiement statique automatisé via Netlify
 
+## 🚀 Roadmap
+
+- [ ] 🌍 Ajout du multilingue (fr/en)
+- [ ] 🌗 Switch manuel Light/Dark mode
+- [ ] 🤹 Multi-comptes (plusieurs épargnes)
+- [ ] 🏦 Gestion des prêts
+- [ ] 💸 Gestion des piochages ponctuels
+- [ ] 📈 Gestion des augmentations de versements
+- [ ] 📄 Export CSV
+- [ ] 📈 Graphiques interactifs (Chart.js)
+
 ## ♻️ Impact écologique
 
 - Site 100 % statique, hébergé sur CDN, très faible empreinte carbone.
