@@ -1,6 +1,7 @@
 const translations = {
   fr: {
-    titre: "Simulesous",
+    titre_onglet: "Simulesous",
+    titre: "💰 Simulesous",
     meta_description:
       "Simulateur d'épargne accessible, sobre et respectueux de l'environnement.",
     choix_langue: "Choisir la langue",
@@ -22,7 +23,8 @@ const translations = {
     theme_label: "Basculer le thème",
   },
   en: {
-    titre: "Simulesous",
+    titre_onglet: "Simulesous",
+    titre: "💰 Simulesous",
     meta_description: "Accessible, minimal, eco-friendly savings simulator.",
     choix_langue: "Choose language",
     aide_form: "Enter your parameters to calculate your savings growth.",
