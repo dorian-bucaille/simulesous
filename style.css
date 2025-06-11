@@ -114,13 +114,13 @@ button[type="submit"]:focus {
   color: #fff;
 }
 #resultat {
-  margin-top: 2rem;
+  margin-top: 0.2rem;
   min-height: 2rem;
   font-size: 1.08rem;
   text-align: center;
 }
 footer {
-  margin-top: 2.5rem;
+  margin-top: 0.2rem;
   font-size: 0.92rem;
   text-align: center;
   color: #8c949c;
