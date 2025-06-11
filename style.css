@@ -7,21 +7,23 @@
   --button-bg: var(--accent);
   --button-fg: #fff;
   --border-radius: 0.5rem;
-  --shadow: 0 2px 12px rgba(0,0,0,0.06);
+  --shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
   --focus-outline: 2px solid var(--accent);
 }
 html {
   font-size: 18px;
   box-sizing: border-box;
 }
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: inherit;
 }
 body {
   margin: 0;
   background: var(--bg);
   color: var(--fg);
-  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  font-family: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   min-height: 100vh;
   line-height: 1.5;
   display: flex;
@@ -89,7 +91,8 @@ button[type="submit"] {
   box-shadow: var(--shadow);
   transition: background 0.15s;
 }
-button[type="submit"]:hover, button[type="submit"]:focus {
+button[type="submit"]:hover,
+button[type="submit"]:focus {
   background: #0198a5;
   color: #fff;
 }
@@ -112,7 +115,7 @@ footer {
   margin: -1px;
   padding: 0;
   overflow: hidden;
-  clip: rect(0,0,0,0);
+  clip: rect(0, 0, 0, 0);
   border: 0;
 }
 @media (max-width: 540px) {
@@ -148,7 +151,7 @@ footer {
   min-width: 120px;
   position: relative;
   /* Flèche custom (SVG inline, sobre) */
-    background-image: url("data:image/svg+xml,%3Csvg%20fill%3D%22%23016170%22%20viewBox%3D%22-6.5%200%2032%2032%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M18.813%2011.406l-7.906%209.906c-0.75%200.906-1.906%200.906-2.625%200l-7.906-9.906c-0.75-0.938-0.375-1.656%200.781-1.656h16.875c1.188%200%201.531%200.719%200.781%201.656z%22/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg%20fill%3D%22%23016170%22%20viewBox%3D%22-6.5%200%2032%2032%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M18.813%2011.406l-7.906%209.906c-0.75%200.906-1.906%200.906-2.625%200l-7.906-9.906c-0.75-0.938-0.375-1.656%200.781-1.656h16.875c1.188%200%201.531%200.719%200.781%201.656z%22/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.7rem center;
   background-size: 1em;
@@ -169,21 +172,34 @@ footer {
     --input-border: #343b43;
     --button-bg: var(--accent);
     --button-fg: #1a2329;
-    --shadow: 0 2px 12px rgba(0,0,0,0.24);
+    --shadow: 0 2px 12px rgba(0, 0, 0, 0.24);
   }
-  
+
   #lang-select {
     background-image: url("data:image/svg+xml,%3Csvg%20fill%3D%22%2323c7c7%22%20viewBox%3D%22-6.5%200%2032%2032%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M18.813%2011.406l-7.906%209.906c-0.75%200.906-1.906%200.906-2.625%200l-7.906-9.906c-0.75-0.938-0.375-1.656%200.781-1.656h16.875c1.188%200%201.531%200.719%200.781%201.656z%22/%3E%3C/svg%3E");
   }
 }
 
 /* Masquer les flèches d’incrémentation dans les champs number */
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-input[type=number] {
+input[type="number"] {
   -moz-appearance: textfield; /* Firefox */
   appearance: textfield;
+}
+
+footer a.github-link {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.15s;
+}
+
+footer a.github-link:hover,
+footer a.github-link:focus {
+  color: #0198a5;
+  text-decoration: underline;
 }
