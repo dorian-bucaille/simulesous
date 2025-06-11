@@ -2,41 +2,49 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Simulateur d’Épargne</title>
+  <title data-i18n="titre">Simulesous</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Simulateur d'épargne accessible, sobre et respectueux de l'environnement.">
-  <link rel="stylesheet" href="style.css">
+  <meta name="description" data-i18n="meta_description" content="Simulateur d'épargne accessible, sobre et respectueux de l'environnement.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23016170'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main>
-    <h1>Simulateur d’Épargne</h1>
+    <div id="lang-switch" style="align-self: flex-end; margin-bottom: 1rem;">
+      <label for="lang-select" class="sr-only" data-i18n="choix_langue">Choisir la langue</label>
+      <select id="lang-select" aria-label="Choisir la langue">
+        <option value="fr" lang="fr">🇫🇷 Français</option>
+        <option value="en" lang="en">🇬🇧 English</option>
+      </select>
+    </div>
+    <h1 data-i18n="titre">Simulesous</h1>
     <form id="form-simu" autocomplete="off" aria-describedby="desc-form">
-      <p id="desc-form" class="sr-only">Entrez vos paramètres pour calculer l’évolution de votre épargne.</p>
+      <p id="desc-form" class="sr-only" data-i18n="aide_form">
+        Entrez vos paramètres pour calculer l’évolution de votre épargne.
+      </p>
       <div class="form-group">
-        <label for="capital_initial">Capital initial (€)</label>
+        <label for="capital_initial" data-i18n="capital_initial_label">Capital initial (€)</label>
         <input type="number" id="capital_initial" name="capital_initial" min="0" step="0.01" required autocomplete="off">
       </div>
       <div class="form-group">
-        <label for="versement_mensuel">Versement mensuel (€)</label>
+        <label for="versement_mensuel" data-i18n="versement_mensuel_label">Versement mensuel (€)</label>
         <input type="number" id="versement_mensuel" name="versement_mensuel" min="0" step="0.01" required autocomplete="off">
       </div>
       <div class="form-group">
-        <label for="taux_annuel">Taux annuel (%)</label>
+        <label for="taux_annuel" data-i18n="taux_annuel_label">Taux annuel (%)</label>
         <input type="number" id="taux_annuel" name="taux_annuel" min="0" step="0.01" required autocomplete="off">
       </div>
       <div class="form-group">
-        <label for="duree_mois">Durée (mois)</label>
+        <label for="duree_mois" data-i18n="duree_mois_label">Durée (mois)</label>
         <input type="number" id="duree_mois" name="duree_mois" min="1" max="600" required autocomplete="off">
       </div>
-      <button type="submit">Calculer</button>
+      <button type="submit" data-i18n="calculer">Calculer</button>
     </form>
     <section id="resultat" aria-live="polite"></section>
     <footer>
       <p>
-        <small>
+        <small data-i18n="footer">
           Projet open-source. Sobre, accessible, respectueux de vos données. <br>
-          <span lang="en">English version coming soon.</span>
         </small>
       </p>
     </footer>
