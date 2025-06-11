@@ -17,14 +17,23 @@
   </head>
   <body>
     <main>
-      <div id="lang-switch" style="align-self: flex-end; margin-bottom: 1rem">
-        <label for="lang-select" class="sr-only" data-i18n="choix_langue"
-          >Choisir la langue</label
+      <div id="header-bar">
+        <div id="lang-switch">
+          <label for="lang-select" class="sr-only" data-i18n="choix_langue"
+            >Choisir la langue</label
+          >
+          <select id="lang-select" aria-label="Choisir la langue">
+            <option value="fr" lang="fr">🇫🇷 Français</option>
+            <option value="en" lang="en">🇬🇧 English</option>
+          </select>
+        </div>
+        <button
+          id="theme-toggle"
+          aria-label="Basculer le thème"
+          title="Basculer le thème"
         >
-        <select id="lang-select" aria-label="Choisir la langue">
-          <option value="fr" lang="fr">🇫🇷 Français</option>
-          <option value="en" lang="en">🇬🇧 English</option>
-        </select>
+          🌙
+        </button>
       </div>
       <h1 data-i18n="titre">Simulesous</h1>
       <form id="form-simu" autocomplete="off" aria-describedby="desc-form">

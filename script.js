@@ -15,8 +15,11 @@ const translations = {
       `Au bout de <b>${mois}</b> mois, votre épargne serait d’environ <b>${montant}</b>.`,
     erreur: "⚠️ Merci de vérifier vos entrées.",
     footer_text:
-      "Projet open-source. Sobre, accessible, respectueux de vos données.",
+      "Projet open-source. Sobre, accessible, respectueux de vos données.<br><span lang='en'>English version available.</span>",
     github_link: "🐙 Voir sur GitHub",
+    theme_light: "☀️",
+    theme_dark: "🌙",
+    theme_label: "Basculer le thème",
   },
   en: {
     titre: "Simulesous",
@@ -31,14 +34,17 @@ const translations = {
     resultat: (mois, montant) =>
       `After <b>${mois}</b> months, your savings would be about <b>${montant}</b>.`,
     erreur: "⚠️ Please check your entries.",
-    footer_text: "Open-source project. Minimal, accessible, data-friendly.",
-    github_link: "🐙 See on GitHub",
+    footer_text:
+      "Open-source project. Minimal, accessible, data-friendly.<br><span lang='fr'>Version française disponible.</span>",
+    github_link: "🐙 View on GitHub",
+    theme_light: "☀️",
+    theme_dark: "🌙",
+    theme_label: "Switch theme",
   },
 };
 
 let currentLang = "fr";
 
-// Fonction pour appliquer la traduction sur tous les éléments marqués [data-i18n]
 function applyTranslations() {
   document.documentElement.lang = currentLang;
   document.querySelectorAll("[data-i18n]").forEach((el) => {
@@ -46,15 +52,95 @@ function applyTranslations() {
     const trad = translations[currentLang][key];
     if (typeof trad === "string") {
       el.innerHTML = trad;
-      // Si meta
       if (el.tagName === "TITLE" || el.tagName === "META") {
         el.textContent = trad;
       }
     }
   });
+
+  // Thème: update button aria-label and icon
+  const themeBtn = document.getElementById("theme-toggle");
+  if (themeBtn) {
+    themeBtn.setAttribute("aria-label", translations[currentLang].theme_label);
+    themeBtn.setAttribute("title", translations[currentLang].theme_label);
+    themeBtn.textContent = document.documentElement.classList.contains("dark")
+      ? translations[currentLang].theme_light
+      : translations[currentLang].theme_dark;
+  }
 }
 
-// Fonction de calcul capital final (intérêts composés mensuels + versements réguliers)
+// Thème: appliquer ou enlever la classe .dark sur <html>
+function applyTheme(theme) {
+  if (theme === "dark") {
+    document.documentElement.classList.add("dark");
+  } else {
+    document.documentElement.classList.remove("dark");
+  }
+  // Stocke la préférence
+  localStorage.setItem("theme", theme);
+  // Update bouton texte/icon
+  applyTranslations();
+}
+
+// Détection thème préféré système
+function getPreferredTheme() {
+  if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    return "dark";
+  }
+  return "light";
+}
+
+// --- Évènements ---
+
+// Switch de langue
+document.getElementById("lang-select").addEventListener("change", function (e) {
+  currentLang = e.target.value;
+  localStorage.setItem("lang", currentLang); // Sauvegarde
+  applyTranslations();
+  afficherResultat("");
+});
+
+// Switch manuel light/dark
+document.getElementById("theme-toggle").addEventListener("click", function () {
+  const theme = document.documentElement.classList.contains("dark")
+    ? "light"
+    : "dark";
+  applyTheme(theme);
+});
+
+// --- Appliquer tout au chargement ---
+window.addEventListener("DOMContentLoaded", () => {
+  // Langue : priorise la sauvegarde, sinon navigateur
+  const savedLang = localStorage.getItem("lang");
+  if (savedLang === "fr" || savedLang === "en") {
+    currentLang = savedLang;
+    document.getElementById("lang-select").value = savedLang;
+  } else {
+    const userLang = navigator.language || navigator.userLanguage || "fr";
+    if (userLang.startsWith("en")) {
+      currentLang = "en";
+      document.getElementById("lang-select").value = "en";
+    } else if (userLang.startsWith("fr")) {
+      currentLang = "fr";
+      document.getElementById("lang-select").value = "fr";
+    }
+  }
+
+  // Thème : priorise la sauvegarde, sinon système
+  const savedTheme = localStorage.getItem("theme");
+  let theme;
+  if (savedTheme === "dark" || savedTheme === "light") {
+    theme = savedTheme;
+  } else {
+    theme = getPreferredTheme();
+  }
+  console.log(theme);
+  applyTheme(theme);
+
+  applyTranslations();
+});
+
+// --- Calcul du simulateur (inchangé) ---
 function calculerEpargne({
   capitalInitial,
   versementMensuel,
@@ -68,8 +154,6 @@ function calculerEpargne({
   }
   return capital;
 }
-
-// Formatage propre du résultat
 function formatMontant(valeur) {
   return valeur.toLocaleString(currentLang === "fr" ? "fr-FR" : "en-US", {
     style: "currency",
@@ -77,8 +161,6 @@ function formatMontant(valeur) {
     maximumFractionDigits: 2,
   });
 }
-
-// Gestion du formulaire
 document
   .getElementById("form-simu")
   .addEventListener("submit", function (event) {
@@ -114,40 +196,7 @@ document
       translations[currentLang].resultat(dureeMois, formatMontant(capitalFinal))
     );
   });
-
-// Affichage du résultat dans la zone aria-live
 function afficherResultat(texteHtml) {
   const resDiv = document.getElementById("resultat");
   resDiv.innerHTML = texteHtml;
 }
-
-// Changement de langue
-document.getElementById("lang-select").addEventListener("change", function (e) {
-  currentLang = e.target.value;
-  localStorage.setItem("lang", currentLang); // Sauvegarde
-  applyTranslations();
-  afficherResultat("");
-});
-
-// Appliquer la traduction au chargement
-window.addEventListener("DOMContentLoaded", () => {
-  // Vérifie si une langue a été sauvegardée
-  const savedLang = localStorage.getItem("lang");
-
-  if (savedLang === "fr" || savedLang === "en") {
-    currentLang = savedLang;
-    document.getElementById("lang-select").value = savedLang;
-  } else {
-    // Sinon, détecte la langue du navigateur
-    const userLang = navigator.language || navigator.userLanguage || "fr";
-    if (userLang.startsWith("en")) {
-      currentLang = "en";
-      document.getElementById("lang-select").value = "en";
-    } else if (userLang.startsWith("fr")) {
-      currentLang = "fr";
-      document.getElementById("lang-select").value = "fr";
-    }
-  }
-
-  applyTranslations();
-});
