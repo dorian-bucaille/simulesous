@@ -85,7 +85,26 @@
     </form>
 
     <section id="resultat" aria-live="polite"></section>
-    <canvas id="chart" aria-label="Courbe d'évolution de l'épargne" role="img" style="max-width:100%; height:auto; margin-top:2rem;"></canvas>
+
+    <!-- Contrôle pour mois/années du graphique, juste au-dessus du <canvas> -->
+    <div id="chart-controls" class="chart-toggle">
+      <span data-i18n="mois">Mois</span>
+      <label class="switch">
+        <input 
+          type="checkbox" 
+          id="chart-toggle-unit" 
+          role="switch" 
+          aria-checked="false" 
+          aria-label="Mois / Années"
+        >
+        <span class="slider"></span>
+      </label>
+      <span data-i18n="annees">Années</span>
+    </div>
+
+    <div id="chart-container" style="resize: both; overflow: auto; width:100%; height:300px;">
+      <canvas id="chart"></canvas>
+    </div>
 
     <footer>
       <p>

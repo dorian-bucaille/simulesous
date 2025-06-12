@@ -334,3 +334,82 @@ footer {
     box-shadow:none;
   }
 }
+
+/*────────────────────────────────────────────────────────────────────────
+  Toggle switch Mois / Années pour le graphique
+────────────────────────────────────────────────────────────────────────*/
+.chart-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.chart-toggle span {
+  font-size: 1rem;
+  color: var(--fg);
+  user-select: none;
+}
+
+/* wrapper */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 3.2rem;
+  height: 1.6rem;
+}
+
+/* cache la checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* track */
+.switch .slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: var(--border-radius);
+  transition: background 0.2s, border-color 0.2s;
+  box-sizing: border-box;
+}
+
+/* thumb */
+.switch .slider::before {
+  content: "";
+  position: absolute;
+  height: 1.2rem;
+  width: 1.2rem;
+  left: 0.2rem;
+  top: 0.2rem;
+  background: var(--button-bg);
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+/* état coché : thumb à droite */
+.switch input:checked + .slider::before {
+  transform: translateX(1.6rem);
+}
+
+/* focus */
+.switch input:focus + .slider {
+  outline: var(--focus-outline);
+  border-color: var(--accent);
+}
+
+/* dark mode adaptation (optionnel) */
+html.dark .switch .slider {
+  background: var(--input-bg);
+  border-color: var(--input-border);
+}
+html.dark .switch .slider::before {
+  background: var(--button-bg);
+}
