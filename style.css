@@ -223,6 +223,75 @@ button[type="submit"]:focus,
 }
 
 /*────────────────────────────────────────────────────────────────────────
+  Sélection de la durée
+────────────────────────────────────────────────────────────────────────*/
+
+.form-duree {
+  align-items: center;
+  width: 100%;
+  max-width: 340px;
+}
+
+.form-duree label {
+  font-weight: 500;
+  margin-bottom: 0.1rem;
+  display: block;
+  text-align: center;
+}
+
+.duree-input-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  width: 100%;
+}
+
+.form-duree input[type="number"] {
+  width: 5.5em;
+  min-width: 4em;
+  text-align: right;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: var(--radius);
+  color: var(--fg);
+  font-size: 1rem;
+  padding: 0.5rem 0.7rem;
+  transition: border 0.15s;
+  box-sizing: border-box;
+}
+
+.form-duree input[type="number"]:focus {
+  outline: var(--focus-outline);
+  border-color: var(--accent);
+}
+
+.form-duree select {
+  padding: 0.5rem 0.95rem 0.5rem 0.8rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--input-border);
+  color: var(--fg);
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border 0.15s, background 0.15s;
+  cursor: pointer;
+  min-width: 6.5em;
+  box-sizing: border-box;
+  appearance: none;
+  background: var(--input-bg)
+    url("data:image/svg+xml,%3Csvg%20fill%3D%22%23797979%22%20viewBox%3D%22-6.5%200%2032%2032%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M18.813%2011.406l-7.906%209.906c-0.75%200.906-1.906%200.906-2.625%200l-7.906-9.906c-0.75-0.938-0.375-1.656%200.781-1.656h16.875c1.188%200%201.531%200.719%200.781%201.656z%22/%3E%3C/svg%3E") no-repeat right .7rem center;
+  background-repeat: no-repeat;
+  background-position: right 0.8rem center;
+  background-size: 1em;
+  padding-right: 2.1rem;
+}
+
+.form-duree select:focus {
+  outline: var(--focus-outline);
+  border-color: var(--accent);
+}
+
+/*────────────────────────────────────────────────────────────────────────
   Résultats, footer, utils & responsive
 ────────────────────────────────────────────────────────────────────────*/
 #resultat {

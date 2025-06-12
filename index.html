@@ -39,7 +39,7 @@
           🌙
         </button>
       </div>
-      <h1 data-i18n="titre">Simulesous</h1>
+      <h1 data-i18n="titre">💰 Simulesous</h1>
     </header>
 
     <form id="form-simu"
@@ -60,18 +60,24 @@
         + Ajouter un compte
       </button>
 
-      <div class="form-group">
-        <label for="duree_mois" data-i18n="duree_mois_label">
-          Durée (mois)
-        </label>
-        <input type="number"
-               id="duree_mois"
-               name="duree_mois"
-               min="1"
-               max="600"
-               required
-               inputmode="decimal">
-      </div>
+      <div class="form-group form-duree">
+          <label for="duree_val" data-i18n="duree_label">Durée</label>
+          <div class="duree-input-row">
+            <input type="number"
+                   id="duree_val"
+                   name="duree_val"
+                   min="1"
+                   max="600"
+                   required
+                   inputmode="decimal"
+                   value="24"
+                   style="width:5.2em;">
+            <select id="duree_unite" name="duree_unite" aria-label="Unité de durée">
+              <option value="mois" data-i18n="mois">Mois</option>
+              <option value="annees" data-i18n="annees">Années</option>
+            </select>
+          </div>
+        </div>
 
       <button type="submit" data-i18n="calculer">
         Calculer
