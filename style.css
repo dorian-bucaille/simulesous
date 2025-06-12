@@ -1,3 +1,6 @@
+/*────────────────────────────────────────────────────────────────────────
+  Variables centrales & thèmes
+────────────────────────────────────────────────────────────────────────*/
 :root {
   --bg: #f8f9fa;
   --fg: #222;
@@ -6,9 +9,9 @@
   --input-border: #cdd3d6;
   --button-bg: var(--accent);
   --button-fg: #fff;
-  --border-radius: 0.5rem;
-  --shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-  --focus-outline: 2px solid var(--accent);
+  --radius: 0.5rem;
+  --shadow: 0 2px 12px rgba(0,0,0,0.06);
+  --focus: 2px solid var(--accent);
 }
 
 /* Mode dark manuel (JS) */
@@ -23,190 +26,47 @@ html.dark {
   --shadow: 0 2px 12px rgba(0, 0, 0, 0.24);
 }
 
-.dark #lang-select {
-  background-image: url("data:image/svg+xml,%3Csvg%20fill%3D%22%2323c7c7%22%20viewBox%3D%22-6.5%200%2032%2032%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M18.813%2011.406l-7.906%209.906c-0.75%200.906-1.906%200.906-2.625%200l-7.906-9.906c-0.75-0.938-0.375-1.656%200.781-1.656h16.875c1.188%200%201.531%200.719%200.781%201.656z%22/%3E%3C/svg%3E");
-}
-
-html {
-  font-size: 18px;
-  box-sizing: border-box;
-}
+/*────────────────────────────────────────────────────────────────────────
+  Réinitialisation simple & Typo
+────────────────────────────────────────────────────────────────────────*/
 *,
 *::before,
-*::after {
-  box-sizing: inherit;
-}
+*::after { box-sizing: border-box; margin:0; padding:0; }
+
+html { font-size: 18px; }
+
 body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--fg);
-  font-family: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-  min-height: 100vh;
-  line-height: 1.5;
   display: flex;
-  align-items: center;
   justify-content: center;
-}
-main {
-  width: 100%;
-  max-width: 420px;
-  margin: 2rem;
+  align-items: center;
+  min-height: 100vh;
   background: var(--bg);
-  border-radius: var(--border-radius);
+  color: var(--fg);
+  font-family: "Inter", "Segoe UI", sans-serif;
+  line-height: 1.5;
+}
+
+/*────────────────────────────────────────────────────────────────────────
+  Conteneur principal
+────────────────────────────────────────────────────────────────────────*/
+main {
+  width: 100%; max-width: 420px;
+  margin: 2rem;
+  padding: 2rem 1.5rem 1rem;
+  background: var(--bg);
+  border-radius: var(--radius);
   box-shadow: var(--shadow);
-  padding: 2rem 1.5rem 1rem 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-h1 {
-  font-size: 1.6rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-  letter-spacing: 0.01em;
-  color: var(--accent);
-  text-align: center;
-}
-form {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 1.1rem;
-}
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-}
-label {
-  font-weight: 500;
-  margin-bottom: 0.1rem;
-}
-input {
-  padding: 0.5rem 0.7rem;
-  border: 1px solid var(--input-border);
-  border-radius: var(--border-radius);
-  background: var(--input-bg);
-  color: var(--fg);
-  font-size: 1rem;
-  transition: border 0.15s;
-}
-input:focus {
-  outline: var(--focus-outline);
-  border-color: var(--accent);
-}
-button[type="submit"] {
-  margin-top: 1rem;
-  background: var(--button-bg);
-  color: var(--button-fg);
-  padding: 0.7rem 1.2rem;
-  border: none;
-  border-radius: var(--border-radius);
-  font-size: 1.08rem;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: var(--shadow);
-  transition: background 0.15s;
-}
-button[type="submit"]:hover,
-button[type="submit"]:focus {
-  background: #0198a5;
-  color: #fff;
-}
-#resultat {
-  margin-top: 0.2rem;
-  min-height: 2rem;
-  font-size: 1.08rem;
-  text-align: center;
-}
-footer {
-  margin-top: 0.2rem;
-  font-size: 0.92rem;
-  text-align: center;
-  color: #8c949c;
-}
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
-}
-@media (max-width: 540px) {
-  main {
-    max-width: 100vw;
-    margin: 0;
-    padding: 1.2rem 0.3rem 0.7rem 0.3rem;
-    border-radius: 0;
-    box-shadow: none;
-  }
-}
-/* Sélecteur de langue sobre et accessible */
-#lang-switch {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 1.2rem;
-  position: relative;
-}
 
-#lang-select {
-  padding: 0.35rem 1.5rem 0.35rem 0.9rem;
-  font-size: 1rem;
-  color: var(--fg);
-  background: var(--input-bg);
-  border: 1px solid var(--input-border);
-  border-radius: var(--border-radius);
-  box-shadow: none;
-  appearance: none;
-  cursor: pointer;
-  transition: border 0.15s;
-  font-family: inherit;
-  min-width: 120px;
-  position: relative;
-  /* Flèche custom (SVG inline, sobre) */
-  background-image: url("data:image/svg+xml,%3Csvg%20fill%3D%22%23016170%22%20viewBox%3D%22-6.5%200%2032%2032%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M18.813%2011.406l-7.906%209.906c-0.75%200.906-1.906%200.906-2.625%200l-7.906-9.906c-0.75-0.938-0.375-1.656%200.781-1.656h16.875c1.188%200%201.531%200.719%200.781%201.656z%22/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 0.7rem center;
-  background-size: 1em;
-  padding-right: 2.1rem;
-}
+/*────────────────────────────────────────────────────────────────────────
+  Header & contrôles
+────────────────────────────────────────────────────────────────────────*/
+header { width:100%; margin-bottom:1.5rem; }
 
-#lang-select:focus {
-  outline: var(--focus-outline);
-  border-color: var(--accent);
-}
-
-/* Masquer les flèches d’incrémentation dans les champs number */
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-input[type="number"] {
-  -moz-appearance: textfield; /* Firefox */
-  appearance: textfield;
-}
-
-footer a.github-link {
-  color: var(--accent);
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.15s;
-}
-
-footer a.github-link:hover,
-footer a.github-link:focus {
-  color: #0198a5;
-  text-decoration: underline;
-}
-
-/* Header bar for lang + theme switch */
 #header-bar {
-  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -214,49 +74,114 @@ footer a.github-link:focus {
   margin-bottom: 1rem;
 }
 
-/* Theme toggle button */
+/* Sélecteur de langue */
+#lang-select {
+  padding: 0.35rem 2.1rem 0.35rem 0.9rem;
+  min-width: 120px;
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--fg);
+  background: var(--input-bg)
+    url("data:image/svg+xml,%3Csvg%20fill%3D%22%23797979%22%20viewBox%3D%22-6.5%200%2032%2032%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M18.813%2011.406l-7.906%209.906c-0.75%200.906-1.906%200.906-2.625%200l-7.906-9.906c-0.75-0.938-0.375-1.656%200.781-1.656h16.875c1.188%200%201.531%200.719%200.781%201.656z%22/%3E%3C/svg%3E") no-repeat right .7rem center;
+  background-size: 1em;
+  border: 1px solid var(--input-border);
+  border-radius: var(--radius);
+  appearance: none;
+  cursor: pointer;
+  transition: border .15s;
+}
+#lang-select:focus { outline: var(--focus); border-color: var(--accent); }
+
+/* Bouton thème */
 #theme-toggle {
   background: var(--input-bg);
   color: var(--button-fg);
   border: 1px solid var(--input-border);
-  font-size: 1.3rem;
-  cursor: pointer;
-  padding: 0.4rem 0.4rem;
   border-radius: 50%;
-  box-shadow: var(--shadow);
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
-  line-height: 1;
-  font-family: inherit;
-  margin-left: 0.6rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: .4rem;
+  font-size:1.3rem;
+  cursor:pointer;
+  box-shadow:var(--shadow);
+  transition: background .15s,color .15s,border-color .15s;
+}
+#theme-toggle:hover,
+#theme-toggle:focus {
+  color:#fff;
+  outline:var(--focus);
+  border-color:var(--accent);
 }
 
-#theme-toggle:focus,
-#theme-toggle:hover {
-  color: #fff;
-  outline: var(--focus-outline);
-  border-color: var(--accent);
+/*────────────────────────────────────────────────────────────────────────
+  Titres & textes
+────────────────────────────────────────────────────────────────────────*/
+h1 {
+  font-size:1.6rem;
+  font-weight:700;
+  color: var(--accent);
+  text-align:center;
+  margin-bottom:1.5rem;
 }
 
-/* Ajuste la position du sélecteur langue */
-#lang-switch {
-  margin-bottom: 0; /* déjà géré par le header */
+/*────────────────────────────────────────────────────────────────────────
+  Formulaire
+────────────────────────────────────────────────────────────────────────*/
+form {
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  gap:1.1rem;
+}
+.form-group {
+  display:flex;
+  flex-direction:column;
+  gap:.3rem;
+}
+label { font-weight:500; }
+input {
+  padding:.5rem .7rem;
+  font-size:1rem;
+  border:1px solid var(--input-border);
+  border-radius:var(--radius);
+  background:var(--input-bg);
+  color:var(--fg);
+  transition:border .15s;
+}
+input:focus { outline:var(--focus); border-color:var(--accent); }
+
+/* Masquer flèches des number */
+input[type="number"] {
+  -moz-appearance:textfield;
+  appearance:textfield;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance:none;
+  margin:0;
 }
 
-/* Padding pour aérer le rendu sur mobile*/
-@media (max-width: 540px) {
-  main {
-    max-width: 100vw;
-    margin: 0;
-    /* Plus de padding pour respirer sur mobile */
-    padding: 1.4rem 1rem 1rem 1rem;
-    border-radius: 0;
-    box-shadow: none;
-  }
+/* Boutons principaux */
+button[type="submit"],
+#ajouter-compte {
+  background: var(--button-bg);
+  color: var(--button-fg);
+  border:none;
+  border-radius:var(--radius);
+  padding:.7rem 1.2rem;
+  font-size:1.08rem;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:var(--shadow);
+  transition:background .15s;
+}
+button[type="submit"]:hover,
+button[type="submit"]:focus,
+#ajouter-compte:hover,
+#ajouter-compte:focus {
+  background:#0198a5;
+  color:#fff;
 }
 
+/* Wrapper comptes dynamique */
 #comptes-container {
   display: flex;
   flex-direction: column;
@@ -276,6 +201,8 @@ footer a.github-link:focus {
   width: 100%;
   max-width: 340px; /* Pour que ça reste compact même sur grand écran */
 }
+
+/* Bouton de suppression de compte */
 .supprimer-compte {
   position: absolute;
   right: 0.3rem;
@@ -287,31 +214,54 @@ footer a.github-link:focus {
   padding: 0 0.7rem 0 0.5rem;
   transition: color 0.15s, background 0.15s;
   border-radius: 50%;
-  line-height: 1;
+  line-height: 1.3rem;
 }
 
 .supprimer-compte:hover,
 .supprimer-compte:focus {
   color: #e55;
 }
-#ajouter-compte {
-  background: var(--button-bg);
-  color: var(--button-fg);
-  border: 1px solid var(--input-border);
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  padding: 0.5rem 1.1rem;
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
-  font-family: inherit;
-  margin-top: 0.3rem;
+
+/*────────────────────────────────────────────────────────────────────────
+  Résultats, footer, utils & responsive
+────────────────────────────────────────────────────────────────────────*/
+#resultat {
+  margin-top:.2rem;
+  min-height:2rem;
+  font-size:1.08rem;
+  text-align:center;
 }
-#ajouter-compte:focus,
-#ajouter-compte:hover {
-  background: #0198a5;
-  color: #fff;
-  outline: var(--focus-outline);
-  border-color: var(--accent);
+
+footer {
+  margin-top:.2rem;
+  text-align:center;
+  font-size:.92rem;
+  color:#8c949c;
+}
+.github-link {
+  color:var(--accent);
+  text-decoration:none;
+  font-weight:500;
+  transition:color .15s;
+}
+.github-link:hover,
+.github-link:focus {
+  color:#0198a5;
+  text-decoration:underline;
+}
+
+.sr-only {
+  position:absolute;
+  width:1px;
+  height:1px;
+  overflow:hidden;
+}
+
+@media (max-width:540px) {
+  main {
+    margin:0;
+    padding:1.4rem 1rem 1rem;
+    border-radius:0;
+    box-shadow:none;
+  }
 }

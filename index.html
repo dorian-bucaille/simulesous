@@ -1,104 +1,108 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <title data-i18n="titre_onglet">Simulesous</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      data-i18n="meta_description"
-      content="Simulateur d'épargne accessible, sobre et respectueux de l'environnement."
-    />
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="assets/apple-touch-icon.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="assets/favicon-32x32.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="assets/favicon-16x16.png"
-    />
-    <link rel="manifest" href="assets/site.webmanifest" />
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <main>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- support legacy IE -->
+  <title data-i18n="titre_onglet">Simulesous</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description"
+        data-i18n="meta_description"
+        content="Simulateur d'épargne accessible, sobre et respectueux de l'environnement.">
+
+  <!-- Préchargement du CSS critique -->
+  <link rel="preload" href="style.css" as="style">
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Favicons et manifest -->
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+  <link rel="manifest" href="assets/site.webmanifest">
+</head>
+<body>
+  <main>
+    <!-- Regroupe barre de langue/thème + titre pour la sémantique -->
+    <header>
       <div id="header-bar">
         <div id="lang-switch">
-          <label for="lang-select" class="sr-only" data-i18n="choix_langue"
-            >Choisir la langue</label
-          >
+          <label for="lang-select" class="sr-only" data-i18n="choix_langue">
+            Choisir la langue
+          </label>
           <select id="lang-select" aria-label="Choisir la langue">
             <option value="fr" lang="fr">🇫🇷 Français</option>
             <option value="en" lang="en">🇬🇧 English</option>
           </select>
         </div>
-        <button
-          id="theme-toggle"
-          aria-label="Basculer le thème"
-          title="Basculer le thème"
-        >
+        <button id="theme-toggle"
+                aria-label="Basculer le thème"
+                title="Basculer le thème">
           🌙
         </button>
       </div>
       <h1 data-i18n="titre">Simulesous</h1>
-      <form id="form-simu" autocomplete="off" aria-describedby="desc-form">
-        <p id="desc-form" class="sr-only" data-i18n="aide_form">
-          Entrez vos paramètres pour calculer l’évolution de votre épargne.
-        </p>
-        <div id="comptes-container"></div>
-        <button type="button" id="ajouter-compte" data-i18n="ajouter_compte">
-          + Ajouter un compte
-        </button>
-        <div class="form-group">
-          <label for="duree_mois" data-i18n="duree_mois_label"
-            >Durée (mois)</label
-          >
-          <input
-            type="number"
-            id="duree_mois"
-            name="duree_mois"
-            min="1"
-            max="600"
-            required
-            autocomplete="off"
-            inputmode="decimal"
-          />
-        </div>
-        <button type="submit" data-i18n="calculer">Calculer</button>
-      </form>
-      <section id="resultat" aria-live="polite"></section>
-      <footer>
-        <p>
-          <small data-i18n="footer_text">
-            Projet open-source. Sobre, accessible, respectueux de vos données.
-            <br />
-            <span lang="en">English version available.</span>
-          </small>
-        </p>
-        <p>
-          <small>
-            <a
-              href="https://github.com/dorian-bucaille/simulesous"
-              target="_blank"
-              rel="noopener"
-              class="github-link"
-              data-i18n="github_link"
-            >
-              🐙 Voir sur GitHub
-            </a>
-          </small>
-        </p>
-      </footer>
-    </main>
-    <script src="script.js"></script>
-  </body>
+    </header>
+
+    <form id="form-simu"
+          autocomplete="off"
+          aria-describedby="desc-form">
+      <p id="desc-form" class="sr-only" data-i18n="aide_form">
+        Entrez vos paramètres pour calculer l’évolution de votre épargne.
+      </p>
+
+      <!-- Conteneur dynamique des comptes -->
+      <div id="comptes-container" aria-live="polite"></div>
+
+      <!-- Bouton d'ajout, aria-controls pour indiquer la cible -->
+      <button type="button"
+              id="ajouter-compte"
+              aria-controls="comptes-container"
+              data-i18n="ajouter_compte">
+        + Ajouter un compte
+      </button>
+
+      <div class="form-group">
+        <label for="duree_mois" data-i18n="duree_mois_label">
+          Durée (mois)
+        </label>
+        <input type="number"
+               id="duree_mois"
+               name="duree_mois"
+               min="1"
+               max="600"
+               required
+               inputmode="decimal">
+      </div>
+
+      <button type="submit" data-i18n="calculer">
+        Calculer
+      </button>
+    </form>
+
+    <section id="resultat" aria-live="polite"></section>
+
+    <footer>
+      <p>
+        <small data-i18n="footer_text">
+          Projet open-source. Sobre, accessible, respectueux de vos données.
+          <br>
+          <span lang="en">English version available.</span>
+        </small>
+      </p>
+      <p>
+        <small>
+          <a href="https://github.com/dorian-bucaille/simulesous"
+             target="_blank"
+             rel="noopener"
+             class="github-link"
+             data-i18n="github_link">
+            🐙 Voir sur GitHub
+          </a>
+        </small>
+      </p>
+    </footer>
+  </main>
+
+  <!-- Chargement différé pour ne pas bloquer le rendu -->
+  <script src="script.js" defer></script>
+</body>
 </html>
