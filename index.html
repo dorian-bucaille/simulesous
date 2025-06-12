@@ -85,6 +85,7 @@
     </form>
 
     <section id="resultat" aria-live="polite"></section>
+    <canvas id="chart" aria-label="Courbe d'évolution de l'épargne" role="img" style="max-width:100%; height:auto; margin-top:2rem;"></canvas>
 
     <footer>
       <p>
@@ -109,6 +110,7 @@
   </main>
 
   <!-- Chargement différé pour ne pas bloquer le rendu -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="script.js" defer></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 const translations = {
   fr: {
-    titre: "💰 Simulesous",
+    titre: "Simulesous",
     meta_description: "Simulateur d'épargne accessible, sobre et respectueux de l'environnement.",
     choix_langue: "Choisir la langue",
     aide_form: "Entrez vos paramètres pour calculer l’évolution de votre épargne.",
@@ -23,7 +23,7 @@ const translations = {
     annees: "Années"
   },
   en: {
-    titre: "💰 Simulesous",
+    titre: "Simulesous",
     meta_description: "Accessible, minimal, eco-friendly savings simulator.",
     choix_langue: "Choose language",
     aide_form: "Enter your parameters to calculate your savings growth.",
@@ -51,6 +51,15 @@ let currentLang = 'fr';
 
 let comptes = [
   { nom: "", capital: "", versement: "", taux: "" }
+];
+
+// Palette minimaliste, accessible, pour différencier jusqu'à 5 comptes
+const couleurs = [
+  "#016170",
+  "#23c7c7",
+  "#e8aa00",
+  "#ce4069",
+  "#9059ff"
 ];
 
 function applyTranslations() {
@@ -94,13 +103,15 @@ function getPreferredTheme() {
   return "light";
 }
 
-function calculerEpargne({ capitalInitial, versementMensuel, tauxAnnuel, dureeMois }) {
+function calculerEpargneAvecHistorique({ capitalInitial, versementMensuel, tauxAnnuel, dureeMois }) {
   const tauxMensuel = Math.pow(1 + tauxAnnuel, 1 / 12) - 1;
   let capital = capitalInitial;
-  for (let i = 0; i < dureeMois; i++) {
+  const historique = [capital];
+  for (let m = 1; m <= dureeMois; m++) {
     capital = capital * (1 + tauxMensuel) + versementMensuel;
+    historique.push(capital);
   }
-  return capital;
+  return historique;
 }
 
 function formatMontant(valeur) {
@@ -163,6 +174,72 @@ function renderComptesForm() {
   });
 }
 
+// --------- CHART.JS ---------
+
+let epargneChart = null;
+
+function renderChart(labels, datasets) {
+  const ctx = document.getElementById('chart').getContext('2d');
+  if (epargneChart) {
+    epargneChart.data.labels = labels;
+    epargneChart.data.datasets = datasets;
+    epargneChart.update();
+  } else {
+    epargneChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels,
+        datasets
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              color: getComputedStyle(document.documentElement).getPropertyValue('--fg')
+            }
+          },
+          tooltip: {
+            mode: 'index',
+            intersect: false,
+            callbacks: {
+              label: function(context) {
+                // Ajoute le formatage € selon la langue
+                const val = context.parsed.y;
+                return `${context.dataset.label} : ${formatMontant(val)}`;
+              }
+            }
+          }
+        },
+        interaction: {
+          mode: 'nearest',
+          intersect: false
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: translations[currentLang].mois
+            },
+            ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--fg') }
+          },
+          y: {
+            title: {
+              display: true,
+              text: '€'
+            },
+            ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--fg') },
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  }
+}
+
+// --------- DOM READY & EVENTS ---------
+
 window.addEventListener('DOMContentLoaded', () => {
   // Langue : priorise la sauvegarde, sinon navigateur
   const savedLang = localStorage.getItem("lang");
@@ -199,6 +276,7 @@ document.getElementById("lang-select").addEventListener("change", function (e) {
   applyTranslations();
   renderComptesForm();
   afficherResultat("");
+  if (epargneChart) epargneChart.destroy(), epargneChart = null;
 });
 
 // Switch manuel light/dark
@@ -207,6 +285,14 @@ document.getElementById("theme-toggle").addEventListener("click", function () {
     ? "light"
     : "dark";
   applyTheme(theme);
+  // Met à jour la couleur des labels Chart.js
+  if (epargneChart) {
+    const fg = getComputedStyle(document.documentElement).getPropertyValue('--fg');
+    epargneChart.options.plugins.legend.labels.color = fg;
+    epargneChart.options.scales.x.ticks.color = fg;
+    epargneChart.options.scales.y.ticks.color = fg;
+    epargneChart.update();
+  }
 });
 
 // Ajouter un compte
@@ -231,13 +317,21 @@ document.getElementById('form-simu').addEventListener('submit', function(event) 
 
   let html = "";
   let total = 0;
+  let maxLen = 0;
+  let allHistos = [];
   comptes.forEach((compte, idx) => {
-    const montant = calculerEpargne({
-      capitalInitial: parseFloat(compte.capital) || 0,
-      versementMensuel: parseFloat(compte.versement) || 0,
-      tauxAnnuel: (parseFloat(compte.taux) || 0) / 100,
+    const capitalInitial = parseFloat(compte.capital) || 0;
+    const versementMensuel = parseFloat(compte.versement) || 0;
+    const tauxAnnuel = (parseFloat(compte.taux) || 0) / 100;
+    const historique = calculerEpargneAvecHistorique({
+      capitalInitial,
+      versementMensuel,
+      tauxAnnuel,
       dureeMois
     });
+    allHistos.push(historique);
+    maxLen = Math.max(maxLen, historique.length);
+    const montant = historique[historique.length - 1];
     total += montant;
     html += `<div><b>${compte.nom || "Compte " + (idx + 1)}</b> : ${formatMontant(montant)}</div>`;
   });
@@ -245,4 +339,20 @@ document.getElementById('form-simu').addEventListener('submit', function(event) 
     html += `<div style="margin-top:0.8rem"><b>Total</b> : ${formatMontant(total)}</div>`;
   }
   afficherResultat(html);
+
+  // Préparation Chart.js
+  // Labels = [0, 1, ..., dureeMois]
+  const labels = Array.from({ length: maxLen }, (_, i) => i.toString());
+  const datasets = comptes.map((compte, idx) => ({
+    label: compte.nom || `Compte ${idx+1}`,
+    data: allHistos[idx],
+    borderColor: couleurs[idx % couleurs.length],
+    backgroundColor: couleurs[idx % couleurs.length] + '40', // Opacité
+    fill: false,
+    tension: 0.07,
+    pointRadius: 1.2
+  }));
+
+  // Affiche ou met à jour le graphique
+  renderChart(labels, datasets);
 });
