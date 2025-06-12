@@ -376,7 +376,7 @@ footer {
   bottom: 0;
   background: var(--input-bg);
   border: 1px solid var(--input-border);
-  border-radius: var(--border-radius);
+  border-radius: 0.7rem;
   transition: background 0.2s, border-color 0.2s;
   box-sizing: border-box;
 }
@@ -388,7 +388,7 @@ footer {
   height: 1.2rem;
   width: 1.2rem;
   left: 0.2rem;
-  top: 0.2rem;
+  top: 0.15rem;
   background: var(--button-bg);
   border-radius: 50%;
   transition: transform 0.2s;
