@@ -28,11 +28,11 @@ Voici les prochaines évolutions envisagées, par ordre de priorité et de faisa
 - [x] 🌍 Ajout du multilingue (fr/en)
 - [x] 🌗 Switch manuel Light/Dark mode
 - [x] 🤹 Multi-comptes (plusieurs épargnes)
+- [x] 📈 Graphiques interactifs (Chart.js)
 - [ ] 🏦 Gestion des prêts
 - [ ] 💸 Gestion des piochages ponctuels
 - [ ] 📈 Gestion des augmentations de versements
 - [ ] 📄 Export CSV
-- [ ] 📈 Graphiques interactifs (Chart.js)
 
 > 💡 Si vous avez des suggestions ou des idées pour enrichir cette roadmap, n'hésitez pas à ouvrir une issue ou un pull request !
 > 
