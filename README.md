@@ -1,49 +1,41 @@
 # Simulesous
 
-📈 **Simulesous** est une petite web-app minimaliste, statique, et accessible pour simuler simplement et rapidement vos projets d’épargne et d’investissements.
+💰 **Simulesous** est une web-app statique, minimaliste et accessible pour simuler vos projets d’épargne et d’investissement, avec graphiques interactifs.
 
 ## 🌱 Principes clés
 
-- **Simple & rapide** : aucun serveur, aucun back-end, aucun framework.
-- **Éco-friendly & sobre** : code HTML, CSS et JS minimal, très léger.
-- **Accessible (100% Lighthouse)** : respect des meilleures pratiques web (sémantique, ARIA, contraste).
-- **Mode sombre intégré** : s’adapte automatiquement à vos préférences système.
-- **Respectueux de vos données** : aucune donnée personnelle collectée, aucun tracking, aucun cookie.
+- **Tout-public & rapide** : pas de back-end, tout tourne en statique.  
+- **Éco-friendly & sobre** : HTML/CSS/JS léger, hébergé sur CDN.  
+- **Accessibilité totale** : sémantique HTML, ARIA, contraste élevé, Lighthouse 100/100.  
+- **Mode sombre natif + toggle manuel** : s’adapte à vos préférences système ou à votre choix.  
+- **Respect de la vie privée** : zéro tracking, zéro cookie, vos données ne sortent jamais de votre navigateur.
 
 ## 🚀 Essayer en ligne
 
-[👉 Voir Simulesous sur Netlify](https://simulesous.netlify.app/)
+[Utiliser Simulesous en un clic](https://simulesous.netlify.app/)
 
 ## 🛠️ Technologie
 
-- HTML sémantique
-- CSS minimaliste avec mode sombre natif
-- JavaScript vanilla (pas de dépendance externe)
-- Déploiement statique automatisé via Netlify
+- **HTML5** sémantique  
+- **CSS3** minimaliste avec variables et mode sombre  
+- **JavaScript (vanilla)** + [Chart.js](https://github.com/chartjs/Chart.js) pour les graphiques  
+- **Déploiement** 100 % statique (Netlify / CDN)
 
 ## 🚀 Roadmap
 
-Voici les prochaines évolutions envisagées, par ordre de priorité et de faisabilité :
+- [ ] 📈 **Augmentations programmées des versements**  
+- [ ] 📄 **Export CSV / Excel**  
+- [ ] … et vos idées ! [Ouvrez une issue](https://github.com/dorian-bucaille/simulesous/issues).
 
-- [x] 🌍 Ajout du multilingue (fr/en)
-- [x] 🌗 Switch manuel Light/Dark mode
-- [x] 🤹 Multi-comptes (plusieurs épargnes)
-- [x] 📈 Graphiques interactifs (Chart.js)
-- [ ] 🏦 Gestion des prêts
-- [ ] 💸 Gestion des piochages ponctuels
-- [ ] 📈 Gestion des augmentations de versements
-- [ ] 📄 Export CSV
-
-> 💡 Si vous avez des suggestions ou des idées pour enrichir cette roadmap, n'hésitez pas à ouvrir une issue ou un pull request !
-> 
 ## ♻️ Impact écologique
 
-- Site 100 % statique, hébergé sur CDN, très faible empreinte carbone.
-- Aucun tracking ou script externe inutile.
+- **Stateless** : tout se charge en HTML/CSS/JS, pas de serveur actif.  
+- **Hébergement sur CDN** ([Netlify](https://app.netlify.com/)) pour minimiser les émissions.  
+- [Chart.js](https://github.com/chartjs/Chart.js) en local, pas de CDN externe supplémentaire.
 
 ## 📝 Licence
 
-[Licence MIT](LICENSE) – libre et ouvert à tous.
+Ce projet est sous [Licence MIT](LICENSE) — libre, ouvert et prêt à vos contributions.
 
 ---
 
