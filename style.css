@@ -422,3 +422,26 @@ html.dark .switch .slider::before {
   margin-left: 0.4rem;
   user-select: none;
 }
+
+/* Résultats détaillés */
+.result-line b {
+  min-width: 8ch;
+}
+
+.result-total {
+  margin-top: 1rem;
+  font-weight: 600;
+  border-top: 1px solid var(--input-border);
+  padding-top: 0.8rem;
+}
+
+.result-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  margin-bottom: 0.5rem;
+}
+.res-label {
+  font-weight: 500;
+  color: var(--accent);
+}

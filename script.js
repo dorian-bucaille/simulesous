@@ -298,6 +298,54 @@ function updateChartColors() {
   epargneChart.update();
 }
 
+function updateAll() {
+  saveComptesFromInputs();
+  const { labels, datasets } = generateChartData();
+
+  let html = "";
+  let totalFinal = 0, totalInit = 0, totalInvesti = 0, totalInterets = 0;
+  const dureeVal = parseInt(document.getElementById("duree_val").value,10) || 1;
+  const dureeMois = chartUnit === "annees" ? dureeVal*12 : dureeVal;
+
+  comptes.forEach((c,i) => {
+    const data = datasets[i].data;
+    const final = data[data.length-1];
+    const init = parseFloat(c.capital)||0;
+    const investi = (parseFloat(c.versement)||0) * dureeMois;
+    const interets = final - init - investi;
+
+    totalFinal    += final;
+    totalInit     += init;
+    totalInvesti  += investi;
+    totalInterets += interets;
+
+    html += `
+      <div class="result-line">
+        <b>${c.nom||"Compte "+(i+1)}</b> :
+        <span class="res-label">Final :</span> ${formatMontant(final)}
+        <span class="res-label">Init :</span> ${formatMontant(init)}
+        <span class="res-label">Investi :</span> ${formatMontant(investi)}
+        <span class="res-label">Intérêts :</span> ${formatMontant(interets)}
+      </div>
+    `;
+  });
+
+  if (comptes.length > 1) {
+    html += `
+      <div class="result-line result-total">
+        <b>${translations[currentLang].total_label}</b> :
+        <span class="res-label">Final :</span> ${formatMontant(totalFinal)}
+        <span class="res-label">Init :</span> ${formatMontant(totalInit)}
+        <span class="res-label">Investi :</span> ${formatMontant(totalInvesti)}
+        <span class="res-label">Intérêts :</span> ${formatMontant(totalInterets)}
+      </div>
+    `;
+  }
+
+  afficherResultat(html);
+  renderChart(labels, datasets);
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Événements DOM
 // ─────────────────────────────────────────────────────────────────────────────
@@ -358,27 +406,16 @@ document.getElementById("toggle-unit").addEventListener("change", e => {
   if (chartHistos.length) {
     const { labels, datasets } = generateChartData();
     renderChart(labels, datasets);
+    updateAll();
   }
 });
 
 // soumission formulaire
 document.getElementById("form-simu").addEventListener("submit", e => {
   e.preventDefault();
-  saveComptesFromInputs();
-
-  const { labels, datasets } = generateChartData();
-
-  // affichage texte
-  let html = "", sum = 0;
-  datasets.slice(0, comptes.length).forEach((ds, i) => {
-    const val = ds.data[ds.data.length - 1];
-    html += `<div><b>${comptes[i].nom || "Compte "+(i+1)}</b> : ${formatMontant(val)}</div>`;
-    sum += val;
-  });
-  if (comptes.length > 1) {
-    html += `<div style="margin-top:.8rem"><b>${translations[currentLang].total_label}</b> : ${formatMontant(sum)}</div>`;
-  }
-  afficherResultat(html);
-
-  renderChart(labels, datasets);
+  updateAll();
 });
+
+// TODO : masquer le chart avant le calcul
+// TODO : améliorer style initial / investi / intérêts
+// TODO : ajouter traduction en initial / investi / intérêts
