@@ -25,6 +25,7 @@ const translations = {
     footer_text:
       "Projet open-source. Sobre, accessible, respectueux de vos données.<br><span lang='en'>English version available.</span>",
     github_link: "🐙 Voir sur GitHub",
+    toggle_desc: "Unité de durée (mois / années)",
     total_label: "Total"
   },
   en: {
@@ -48,6 +49,7 @@ const translations = {
     footer_text:
       "Open-source project. Minimal, accessible, data-friendly.<br><span lang='fr'>Version française disponible.</span>",
     github_link: "🐙 View on GitHub",
+    toggle_desc: "Duration unit (months / years)",
     total_label: "Total"
   }
 };
@@ -58,12 +60,12 @@ const translations = {
 let currentLang = "fr";
 let comptes = [{ nom: "", capital: "", versement: "", taux: "" }];
 
-let chartUnit = "mois";       // "mois" ou "annees"
-let chartHistos = [];         // historque par compte
-let chartDuration = 0;        // durée en mois
-let epargneChart = null;      // instance Chart.js
+let chartUnit = "annees";      // "mois" ou "annees"
+let chartHistos = [];          // historique par compte
+let chartDuration = 0;         // durée en mois
+let epargneChart = null;       // instance Chart.js
 
-const couleurs = [           // palette sobre
+const couleurs = [             // palette sobre
   "#016170",
   "#23c7c7",
   "#e8aa00",
@@ -81,14 +83,14 @@ function applyTranslations() {
     const txt = translations[currentLang][key];
     if (typeof txt === "string") el.innerHTML = txt;
   });
-  // mise à jour du toggle aria-label
-  const toggle = document.getElementById("chart-toggle-unit");
-  toggle.setAttribute(
+  // Mise à jour du toggle unité aria-label
+  const tog = document.getElementById("toggle-unit");
+  tog.setAttribute(
     "aria-label",
     `${translations[currentLang].duree_label} : ${translations[currentLang][chartUnit]}`
   );
-  toggle.setAttribute("aria-checked", toggle.checked);
-  // thème button
+  tog.setAttribute("aria-checked", tog.checked);
+  // Thème button
   const th = document.getElementById("theme-toggle");
   th.setAttribute("aria-label", translations[currentLang].theme_label);
   th.textContent = document.documentElement.classList.contains("dark")
@@ -131,15 +133,21 @@ function afficherResultat(html) {
   document.getElementById("resultat").innerHTML = html;
 }
 
+function updateDureeToggleLabels() {
+  const isYears = document.getElementById("toggle-unit").checked;
+  document.querySelector(".toggle-mois").style.display    = isYears ? "none"  : "inline";
+  document.querySelector(".toggle-annees").style.display  = isYears ? "inline" : "none";
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Gestion dynamique des comptes
 // ─────────────────────────────────────────────────────────────────────────────
 function saveComptesFromInputs() {
   comptes = comptes.map((c, i) => ({
-    nom:     document.getElementById(`nom_compte_${i}`).value.trim() || c.nom,
-    capital: document.getElementById(`capital_initial_${i}`).value || c.capital,
+    nom:       document.getElementById(`nom_compte_${i}`).value.trim() || c.nom,
+    capital:   document.getElementById(`capital_initial_${i}`).value || c.capital,
     versement: document.getElementById(`versement_mensuel_${i}`).value || c.versement,
-    taux:    document.getElementById(`taux_annuel_${i}`).value || c.taux
+    taux:      document.getElementById(`taux_annuel_${i}`).value || c.taux
   }));
 }
 
@@ -152,19 +160,19 @@ function renderComptesForm() {
     bloc.innerHTML = `
       <div class="form-group">
         <label data-i18n="nom_compte_label" for="nom_compte_${i}"></label>
-        <input type="text"       id="nom_compte_${i}" value="${c.nom}" maxlength="32" autocomplete="off">
+        <input type="text" id="nom_compte_${i}" value="${c.nom}" maxlength="32" autocomplete="off">
       </div>
       <div class="form-group">
         <label data-i18n="capital_initial_label" for="capital_initial_${i}"></label>
-        <input type="number"     id="capital_initial_${i}" min="0" step="0.01" inputmode="decimal" value="${c.capital}">
+        <input type="number" id="capital_initial_${i}" min="0" step="0.01" inputmode="decimal" value="${c.capital}">
       </div>
       <div class="form-group">
         <label data-i18n="versement_mensuel_label" for="versement_mensuel_${i}"></label>
-        <input type="number"     id="versement_mensuel_${i}" min="0" step="0.01" inputmode="decimal" value="${c.versement}">
+        <input type="number" id="versement_mensuel_${i}" min="0" step="0.01" inputmode="decimal" value="${c.versement}">
       </div>
       <div class="form-group">
         <label data-i18n="taux_annuel_label" for="taux_annuel_${i}"></label>
-        <input type="number"     id="taux_annuel_${i}" min="0" step="0.01" inputmode="decimal" value="${c.taux}">
+        <input type="number" id="taux_annuel_${i}" min="0" step="0.01" inputmode="decimal" value="${c.taux}">
       </div>
       ${comptes.length > 1 
         ? `<button type="button" class="supprimer-compte" data-idx="${i}" aria-label="Supprimer">×</button>`
@@ -174,7 +182,6 @@ function renderComptesForm() {
     cont.appendChild(bloc);
   });
   applyTranslations();
-  // suppression
   document.querySelectorAll(".supprimer-compte").forEach(btn => {
     btn.onclick = () => {
       saveComptesFromInputs();
@@ -188,11 +195,11 @@ function renderComptesForm() {
 // Génération et rendu du graphique
 // ─────────────────────────────────────────────────────────────────────────────
 function generateChartData() {
-  // durée en mois
+  // récupère la valeur et utilise chartUnit
   const val = parseInt(document.getElementById("duree_val").value, 10) || 1;
-  const unite = document.getElementById("duree_unite").value;
-  chartDuration = unite === "annees" ? val * 12 : val;
-  // historiques
+  chartDuration = (chartUnit === "annees") ? val * 12 : val;
+
+  // génère les historiques
   chartHistos = comptes.map(c =>
     calculerEpargneAvecHistorique({
       capitalInitial: parseFloat(c.capital) || 0,
@@ -201,9 +208,11 @@ function generateChartData() {
       dureeMois: chartDuration
     })
   );
-  // labels 0..N
+
+  // labels
   const labels = Array.from({ length: chartDuration + 1 }, (_, i) => i);
-  // dataset comptes
+
+  // datasets comptes
   const datasets = chartHistos.map((h, i) => ({
     label: comptes[i].nom || `Compte ${i + 1}`,
     data: h,
@@ -212,6 +221,7 @@ function generateChartData() {
     tension: 0.1,
     pointRadius: 0
   }));
+
   // dataset total
   const total = labels.map((_, i) =>
     chartHistos.reduce((sum, h) => sum + (h[i] || 0), 0)
@@ -234,13 +244,12 @@ function renderChart(labels, datasets) {
   const unit = chartUnit;
   const ctx = document.getElementById("chart").getContext("2d");
 
-  // axe X : mois vs années
   const xOpts = {
     title: { display: true, text: translations[currentLang][unit] },
     ticks: {
       color: fg,
-      stepSize: unit === "annees" ? 12 : 1,
-      callback: v => unit === "annees" ? (v % 12 === 0 ? (v / 12).toString() : "") : v.toString()
+      stepSize: (unit === "annees") ? 12 : 1,
+      callback: v => (unit === "annees" && v % 12 === 0) ? (v/12).toString() : (unit === "mois" ? v.toString() : "")
     }
   };
 
@@ -249,7 +258,7 @@ function renderChart(labels, datasets) {
     data: { labels, datasets },
     options: {
       responsive: true,
-      maintainAspectRatio: false, // permet de redimensionner via CSS
+      maintainAspectRatio: false,
       plugins: {
         legend: { position: "bottom", labels: { color: fg } },
         tooltip: {
@@ -262,7 +271,11 @@ function renderChart(labels, datasets) {
       },
       scales: {
         x: xOpts,
-        y: { title: { display: true, text: "€" }, ticks: { color: fg }, beginAtZero: true }
+        y: {
+          title: { display: true, text: "€" },
+          ticks: { color: fg },
+          beginAtZero: true
+        }
       }
     }
   };
@@ -293,16 +306,20 @@ window.addEventListener("DOMContentLoaded", () => {
   const sl = localStorage.getItem("lang");
   if (["fr", "en"].includes(sl)) currentLang = sl;
   document.getElementById("lang-select").value = currentLang;
+
   // thème
   const st = localStorage.getItem("theme");
-  applyTheme(["light", "dark"].includes(st) ? st : getPreferredTheme());
-  // toggle graphique unité
-  const savedUnit = localStorage.getItem("chartUnit");
-  chartUnit = savedUnit === "annees" ? "annees" : "mois";
-  const tog = document.getElementById("chart-toggle-unit");
-  tog.checked = chartUnit === "annees";
+  applyTheme((["light","dark"].includes(st) ? st : getPreferredTheme()));
+
+  // toggle unité (durée & graphique)
+  const saved = localStorage.getItem("chartUnit");
+  chartUnit = (saved === "annees") ? "annees" : "mois";
+  const tog = document.getElementById("toggle-unit");
+  tog.checked = (chartUnit === "annees");
   tog.setAttribute("aria-checked", tog.checked);
+
   applyTranslations();
+  updateDureeToggleLabels();
   renderComptesForm();
 });
 
@@ -326,33 +343,42 @@ document.getElementById("ajouter-compte").addEventListener("click", () => {
   renderComptesForm();
 });
 
+// toggle unité change
+document.getElementById("toggle-unit").addEventListener("change", e => {
+  chartUnit = e.target.checked ? "annees" : "mois";
+  localStorage.setItem("chartUnit", chartUnit);
+  e.target.setAttribute("aria-checked", e.target.checked);
+  updateDureeToggleLabels();
+  e.target.setAttribute(
+    "aria-label",
+    `${translations[currentLang].duree_label} : ${translations[currentLang][chartUnit]}`
+  );
+  applyTranslations();
+  // si déjà calculé, on redraw
+  if (chartHistos.length) {
+    const { labels, datasets } = generateChartData();
+    renderChart(labels, datasets);
+  }
+});
+
 // soumission formulaire
 document.getElementById("form-simu").addEventListener("submit", e => {
   e.preventDefault();
   saveComptesFromInputs();
+
   const { labels, datasets } = generateChartData();
-  // texte résultat
+
+  // affichage texte
   let html = "", sum = 0;
   datasets.slice(0, comptes.length).forEach((ds, i) => {
     const val = ds.data[ds.data.length - 1];
-    html += `<div><b>${comptes[i].nom || "Compte " + (i + 1)}</b> : ${formatMontant(val)}</div>`;
+    html += `<div><b>${comptes[i].nom || "Compte "+(i+1)}</b> : ${formatMontant(val)}</div>`;
     sum += val;
   });
   if (comptes.length > 1) {
     html += `<div style="margin-top:.8rem"><b>${translations[currentLang].total_label}</b> : ${formatMontant(sum)}</div>`;
   }
   afficherResultat(html);
-  renderChart(labels, datasets);
-});
 
-// toggle graphique unité
-document.getElementById("chart-toggle-unit").addEventListener("change", e => {
-  chartUnit = e.target.checked ? "annees" : "mois";
-  localStorage.setItem("chartUnit", chartUnit);
-  e.target.setAttribute("aria-checked", e.target.checked);
-  applyTranslations();
-  if (chartHistos.length) {
-    const { labels, datasets } = generateChartData();
-    renderChart(labels, datasets);
-  }
+  renderChart(labels, datasets);
 });

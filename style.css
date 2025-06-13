@@ -413,3 +413,12 @@ html.dark .switch .slider {
 html.dark .switch .slider::before {
   background: var(--button-bg);
 }
+
+.toggle-mois,
+.toggle-annees {
+  display: none;
+  font-size: 0.9rem;
+  color: var(--fg);
+  margin-left: 0.4rem;
+  user-select: none;
+}
